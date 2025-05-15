@@ -200,7 +200,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `LojaDeRoupas`.`ForrmaPag`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LojaDeRoupas`.`ForrmaPag` (
+CREATE TABLE IF NOT EXISTS `LojaDeRoupas`.`FormaPag` (
   `idForrmaPag` INT NOT NULL AUTO_INCREMENT,
   `parcela` VARCHAR(45) NULL,
   `tipo` VARCHAR(45) NOT NULL,
@@ -214,6 +214,8 @@ CREATE TABLE IF NOT EXISTS `LojaDeRoupas`.`ForrmaPag` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
 
 
 -- -----------------------------------------------------
