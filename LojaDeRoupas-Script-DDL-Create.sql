@@ -201,7 +201,11 @@ ENGINE = InnoDB;
 -- Table `LojaDeRoupas`.`FormaPag`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `LojaDeRoupas`.`FormaPag` (
+
   `idFormaPag` INT NOT NULL AUTO_INCREMENT,
+
+  `idForrmaPag` INT NOT NULL AUTO_INCREMENT,
+
   `parcela` VARCHAR(45) NULL,
   `tipo` VARCHAR(45) NOT NULL,
   `valorPago` DECIMAL(10,2) UNSIGNED NOT NULL,
@@ -214,6 +218,8 @@ CREATE TABLE IF NOT EXISTS `LojaDeRoupas`.`FormaPag` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
 
 
 -- -----------------------------------------------------

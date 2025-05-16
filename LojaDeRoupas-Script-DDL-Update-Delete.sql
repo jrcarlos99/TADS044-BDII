@@ -56,4 +56,7 @@ DELETE FROM FormaPag WHERE idVendas = 15;
 DELETE FROM PromocaoProduto WHERE idPromocao = 15 AND idProduto = 15;
 
 -- Remove funcionário associado à venda excluída
+
+DELETE FROM Funcionario WHERE idFuncionarios = 15;
+
 DELETE FROM Funcionario WHERE idFuncionarios = 15;
