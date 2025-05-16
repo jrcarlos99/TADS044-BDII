@@ -12,7 +12,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema LojaDeRoupas
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `LojaDeRoupas` DEFAULT CHARACTER SET utf8 ;
-USE `LojaDecategoriaRoupas` ;
+USE `LojaDeRoupas` ;
 
 -- -----------------------------------------------------
 -- Table `LojaDeRoupas`.`Categoria`
@@ -198,17 +198,17 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `LojaDeRoupas`.`ForrmaPag`
+-- Table `LojaDeRoupas`.`FormaPag`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LojaDeRoupas`.`ForrmaPag` (
-  `idForrmaPag` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `LojaDeRoupas`.`FormaPag` (
+  `idFormaPag` INT NOT NULL AUTO_INCREMENT,
   `parcela` VARCHAR(45) NULL,
   `tipo` VARCHAR(45) NOT NULL,
   `valorPago` DECIMAL(10,2) UNSIGNED NOT NULL,
   `idVendas` INT NOT NULL,
-  PRIMARY KEY (`idForrmaPag`, `idVendas`),
-  INDEX `fk_ForrmaPag_Vendas1_idx` (`idVendas` ASC) VISIBLE,
-  CONSTRAINT `fk_ForrmaPag_Vendas1`
+  PRIMARY KEY (`idFormaPag`, `idVendas`),
+  INDEX `fk_FormaPag_Vendas1_idx` (`idVendas` ASC) VISIBLE,
+  CONSTRAINT `fk_FormaPag_Vendas1`
     FOREIGN KEY (`idVendas`)
     REFERENCES `LojaDeRoupas`.`Venda` (`idVendas`)
     ON DELETE NO ACTION
