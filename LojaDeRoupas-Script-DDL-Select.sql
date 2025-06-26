@@ -165,3 +165,74 @@ where c.idCliente = 1
 group by c.idCliente, c.nomeCliente
 ;
 
+
+CREATE VIEW FuncionariosDetalhados as 
+select idFuncionarios AS 'Identificador', nome as 'Nome', telefone as 'Contato',  cargo
+from funcionario;
+
+drop view if exists VendasEntreguesPorFuncionario;
+CREATE VIEW VendasEntreguesPorFuncionario as 
+select f.idFuncionarios, f.nome, coalesce(sum(iv.quantidade), 0)  as total_itens_vendidos, v.dataVenda, v.statusEntrega 
+from funcionario f
+join venda v on f.idFuncionarios = v.idFuncionario
+join itemVenda iv on v.idVendas = iv.idVendas
+where v.statusEntrega = 'Entregue'
+group by f.idFuncionarios, f.nome, v.dataVenda, v.statusEntrega;
+
+
+CREATE VIEW VendasPendentesPorFuncionario as 
+select f.idFuncionarios as id_funcionario, f.Nome as nome, coalesce(max(iv.quantidade), 0) as total_itens_vendidos, count(distinct  v.dataVenda) as total_vendas_pendentes
+from funcionario f
+left join venda v on f.idFuncionarios = v.idFuncionario and v.statusEntrega = 'Pendente'
+left join itemvenda iv on v.idVendas = iv.idVendas
+group by f.idFuncionarios, f.nome, v.idVendas, v.dataVenda, v.statusEntrega;
+
+
+CREATE VIEW ContagemProdutosPorCategoria as
+select c.idCategorias as id_categoria, c.nomeCategoria as 'Categoria', count(p.idProduto) as 'Total de Produtos'
+from categoria c 
+left join produtos p on c.idCategorias = p.idCategoria
+group by c.idCategorias, c.nomeCategoria;
+
+
+CREATE VIEW ProdutosPretosMaisCaros as 
+select p.idProduto as id_produto, nomeProduto as 'Nome', preco as 'Preço', cor as 'Cor'
+from produtos p
+where preco >= 59.90 and lower(p.cor) like 'pret%';
+
+
+CREATE VIEW ProdutosPorCategoriaCasual as 
+select  p.idProduto as id_produto, p.nomeProduto as 'Produto', c.nomeCategoria as 'Categorias', c.idCategorias as id_categoria
+from produtos p
+join categoria c on p.idCategoria = c.idCategorias
+where p.idCategoria = 1;
+
+
+CREATE VIEW ContagemProdutosPorMarca as 
+select m.idMarca as id_marca, m.nome as 'Marca', count(p.idProduto) as 'Total de Produtos'
+from marca m
+left join produtos p on m.idMarca = p.idMarcas
+group by m.idMarca, m.nome;
+
+
+CREATE VIEW ProdutosComEstoqueBaixo as 
+select p.idProduto as id_produto, p.nomeProduto as 'Produto', e.quantidade as 'Quantidade em Estoque'
+from produtos p 
+join estoque e on p.idProduto = e.idProduto
+where e.quantidade < 15;
+
+
+CREATE VIEW ProdutosEmPromocaoComDescontoElevado as 
+select p.idProduto as id_produto, p.nomeProduto as 'Produto', pr.idPromocao as id_promocao, pr.nome as 'Nome da Promoção', pr.descontoPercentual as 'Desconto (%)'
+from produtos p 
+join promocaoproduto pp on p.idProduto = pp.idProduto
+join promocao pr on pp.idPromocao = pr.idPromocao
+where pr.descontoPercentual >= 15.00;
+
+
+CREATE VIEW ClienteComMaiorGasto as 
+select c.idCliente as id_cliente, c.nomeCliente as 'Nome do Cliente', coalesce(sum(iv.quantidade * iv.precoUnitario), 0)  as 'Total Gasto'  
+from cliente c
+left join venda v on c.idCliente = v.idVendas
+left join itemvenda iv on v.idVendas = iv.idVendas
+group by c.idCliente, c.nomeCliente;

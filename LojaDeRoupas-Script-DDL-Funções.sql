@@ -1,3 +1,5 @@
+SHOW FUNCTION STATUS WHERE Db = 'lojaderoupas';
+
 -- função 1
 DELIMITER $$
 CREATE FUNCTION fn_total_gasto_cliente(p_idCliente INT)
@@ -16,27 +18,30 @@ BEGIN
 END $$
 DELIMITER ;
 
--- função 2
+-- Função 2
+
 DELIMITER $$
-CREATE FUNCTION fn_qtd_produtos_promocao_atual()
+CREATE FUNCTION fn_qtd_produtos_promocao_ativas()
 RETURNS INT
 DETERMINISTIC
 BEGIN
   DECLARE v_count INT;
 
-  SELECT COUNT(DISTINCT pp.idProduto) 
+  SELECT COUNT(DISTINCT pp.idProduto)
   INTO v_count
   FROM PromocaoProduto pp
   JOIN Promocao pr ON pp.idPromocao = pr.idPromocao
-  WHERE CURDATE() BETWEEN pr.dataInicio AND pr.dataFim;
+  WHERE CURDATE() <= pr.dataFim;
 
-  RETURN v_count;
+  RETURN IFNULL(v_count, 0);
 END $$
 DELIMITER ;
 
+
 -- função 3
+
 DELIMITER $$
-CREATE FUNCTION fn_ultimas_vendas_funcionario(p_idFuncionario INT, p_dias INT)
+CREATE FUNCTION fn_total_itens_ultimas_7_vendas_funcionario(p_idFuncionario INT)
 RETURNS INT
 DETERMINISTIC
 BEGIN
@@ -44,14 +49,19 @@ BEGIN
 
   SELECT IFNULL(SUM(iv.quantidade), 0)
   INTO v_soma
-  FROM Venda v
-  JOIN itemVenda iv ON v.idVendas = iv.idVendas
-  WHERE v.idFuncionario = p_idFuncionario
-    AND v.dataVenda >= CURDATE() - INTERVAL p_dias DAY;
+  FROM (
+    SELECT v.idVendas
+    FROM Venda v
+    WHERE v.idFuncionario = p_idFuncionario
+    ORDER BY v.dataVenda DESC, v.idVendas DESC
+    LIMIT 7
+  ) AS ultimas_vendas
+  JOIN itemVenda iv ON iv.idVendas = ultimas_vendas.idVendas;
 
   RETURN v_soma;
 END $$
 DELIMITER ;
+
 
 -- função 4
 DELIMITER $$
