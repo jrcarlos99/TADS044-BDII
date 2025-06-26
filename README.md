@@ -1,4 +1,13 @@
-# TADS044-BDII
+# TADSO44-BDII - Trabalho em Trio
 
-## Repositório do trabalho em trio.
-Membros: João Carlos, Amanda Ellem e Dayanni Rodrigues
+## 📝 Descrição do Projeto
+Repositório dedicado ao trabalho da disciplina de Banco de Dados II (TADSO44).  
+Desenvolvimento de um sistema de banco de dados para Loja de Roupas.
+
+## 👥 Membros do Grupo
+| Nome               | 
+|--------------------|
+| João Carlos        | 
+| Amanda Cruz        | 
+| Dayanni Rodrigues  |
+
